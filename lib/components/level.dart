@@ -7,8 +7,10 @@ import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/chicken.dart';
 import 'package:pixel_adventure/components/collision_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
+import 'package:pixel_adventure/components/full_background_tile.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/saw.dart';
+import 'package:pixel_adventure/components/water_background_tile.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class Level extends World with HasGameRef<PixelAdventure> {
@@ -33,16 +35,29 @@ class Level extends World with HasGameRef<PixelAdventure> {
 
   void _scrollingBackground() {
     final backgroundLayer = level.tileMap.getLayer('Background');
-
+    print(gameRef.size);
     if (backgroundLayer != null) {
-      final backgroundColor =
-          backgroundLayer.properties.getValue('BackgroundColor');
-      // No need to add paralax effect
-      // final backgroundTile = BackgroundTile(
-      //   color: backgroundColor ?? 'Gray',
-      //   position: Vector2(0, 0),
-      // );
-      // add(backgroundTile);
+      final height = (13 * 32).toDouble();
+
+      final backgroundTile = BackgroundTile(
+        size: Vector2(gameRef.size.x, height / 2),
+        position: Vector2(0, height / 2),
+      );
+
+      final fullBackgroundTile = FullBackgroundTile(
+        size: Vector2(gameRef.size.x, height / 1.5),
+        position: Vector2(0, 0),
+      );
+
+
+      final waterBackgroundTile = WaterBackgroundTile(
+        size: Vector2(gameRef.size.x, height / 1.2),
+        position: Vector2(0, height / 1.2),
+      );
+
+      add(backgroundTile ..priority = -10);
+      add(fullBackgroundTile ..priority = -20);
+      // add(waterBackgroundTile ..priority = -15);
     }
   }
 
