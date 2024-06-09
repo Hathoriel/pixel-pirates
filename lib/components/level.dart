@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pixel_adventure/components/background_tile.dart';
+import 'package:pixel_adventure/components/big_clouds_background_tile.dart';
 import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/chicken.dart';
 import 'package:pixel_adventure/components/collision_block.dart';
@@ -12,6 +15,9 @@ import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/saw.dart';
 import 'package:pixel_adventure/components/water_background_tile.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
+import 'package:flame/components.dart';
+import 'package:flame/game.dart';
+import 'package:flame/parallax.dart';
 
 class Level extends World with HasGameRef<PixelAdventure> {
   final String levelName;
@@ -33,7 +39,7 @@ class Level extends World with HasGameRef<PixelAdventure> {
     return super.onLoad();
   }
 
-  void _scrollingBackground() {
+  Future<void> _scrollingBackground() async {
     final backgroundLayer = level.tileMap.getLayer('Background');
     print(gameRef.size);
     if (backgroundLayer != null) {
@@ -49,15 +55,24 @@ class Level extends World with HasGameRef<PixelAdventure> {
         position: Vector2(0, 0),
       );
 
-
-      final waterBackgroundTile = WaterBackgroundTile(
-        size: Vector2(gameRef.size.x, height / 1.2),
-        position: Vector2(0, height / 1.2),
+      ParallaxComponent clouds  = await gameRef.loadParallaxComponent(
+        [ParallaxImageData('Background/Big Clouds.png')],
+        baseVelocity: Vector2(35, 0),
+        position: Vector2(0, height / 2),
+        size: Vector2(gameRef.size.x, height / 3),
       );
+
+      final cloudOne = SingleCloudComponent(
+        position: Vector2(gameRef.size.x - 330, 100),
+        size: Vector2(74, 24),
+        speed: 15,
+      );
+
+      add(clouds .. priority = -3);
+      add(cloudOne .. priority = -3);
 
       add(backgroundTile ..priority = -10);
       add(fullBackgroundTile ..priority = -20);
-      // add(waterBackgroundTile ..priority = -15);
     }
   }
 
