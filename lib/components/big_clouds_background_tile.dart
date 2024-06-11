@@ -4,16 +4,18 @@ import 'package:flame/game.dart';
 
 class SingleCloudComponent extends SpriteComponent with HasGameRef {
   final double speed;
+  final String name;
 
   SingleCloudComponent({
     required Vector2 position,
     required Vector2 size,
+    required this.name,
     this.speed = 100,
   }) : super(position: position, size: size);
 
   @override
   Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('Background/Small Cloud 1.png');
+    sprite = await gameRef.loadSprite('Background/$name');
   }
 
   @override

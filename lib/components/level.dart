@@ -14,6 +14,7 @@ import 'package:pixel_adventure/components/full_background_tile.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/saw.dart';
 import 'package:pixel_adventure/components/water_background_tile.dart';
+import 'package:pixel_adventure/components/water_reflect.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -63,14 +64,34 @@ class Level extends World with HasGameRef<PixelAdventure> {
       );
 
       final cloudOne = SingleCloudComponent(
-        position: Vector2(gameRef.size.x - 330, 100),
+        name: 'Small Cloud 1.png',
+        position: Vector2(gameRef.size.x - 330, 80),
         size: Vector2(74, 24),
         speed: 15,
       );
-
-      add(clouds .. priority = -3);
       add(cloudOne .. priority = -3);
 
+      final cloudTwo = SingleCloudComponent(
+        name: 'Small Cloud 2.png',
+        position: Vector2(gameRef.size.x - 530, 140),
+        size: Vector2(74, 24),
+        speed: 15,
+      );
+      add(cloudTwo .. priority = -3);
+
+      final cloudThree = SingleCloudComponent(
+        name: 'Small Cloud 3.png',
+        position: Vector2(gameRef.size.x - 730, 180),
+        size: Vector2(74, 24),
+        speed: 15,
+      );
+      add(cloudThree .. priority = -3);
+
+
+      final waterReflect = WaterReflect();
+      add(waterReflect);
+
+      add(clouds .. priority = -3);
       add(backgroundTile ..priority = -10);
       add(fullBackgroundTile ..priority = -20);
     }
